@@ -1,4 +1,5 @@
 ﻿using KTL_game.Helper;
+using KTL_game.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using MahApps.Metro.Controls;
 namespace KTL_game
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+            StartPage startPage = new StartPage(this);
+            this.Content = startPage;
         }
     }
 }
