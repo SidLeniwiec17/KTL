@@ -42,5 +42,17 @@ namespace KTL_game.Helper
             }
             return colors;
         }
+        public static int all_possible_colors(int total_colors, int rand_colors)
+        {
+            int possibilities = 0;
+            possibilities = Factorial(total_colors) / (Factorial(rand_colors) * Factorial(total_colors - rand_colors));
+            return possibilities;
+        }
+        public static int Factorial(int i)
+        {
+            if (i <= 1)
+                return 1;
+            return i * Factorial(i - 1);
+        }
     }
 }
