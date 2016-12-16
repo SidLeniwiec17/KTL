@@ -15,5 +15,32 @@ namespace KTL_game.Helper
 
             return nTerm;
         }
+        public static List<int> randColors(int total_colors, int rand_colors)
+        {
+            List<int> colors = new List<int>();
+            Random rand = new Random();
+            //Losuję listę kolorów
+            for (int i = 0; i < rand_colors; i++)
+            {
+                while (true)
+                {
+                    bool foundRand = true;
+                    int tmpcol = rand.Next(total_colors - 1);
+                    for (int j = 0; j < colors.Count; j++)
+                    {
+                        if (colors[j] == tmpcol)
+                        {
+                            foundRand = false;
+                        }
+                    }
+                    if (foundRand == true)
+                    {
+                        colors.Add(tmpcol);
+                        break;
+                    }
+                }
+            }
+            return colors;
+        }
     }
 }

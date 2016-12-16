@@ -69,7 +69,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helper\LogicHelper.cs" />
+    <Compile Include="Helper\Plate.cs" />
+    <Compile Include="Helper\Scenario.cs" />
+    <Compile Include="Helper\Sequence.cs" />
     <Compile Include="Helper\SequenceHelper.cs" />
+    <Compile Include="Helper\SequencesMemory.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
