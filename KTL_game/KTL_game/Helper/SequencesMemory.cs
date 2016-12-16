@@ -10,12 +10,14 @@ namespace KTL_game.Helper
     {
         public List<List<Sequence>> sequences { get; set; }
 
-        public SequencesMemory()
+        public SequencesMemory(int all_colors)
         {
             this.sequences = new List<List<Sequence>>();
+            for (int i = 0; i < all_colors; i++)
+                this.sequences.Add(new List<Sequence>());
         }
 
-        internal int Update(int selected_number, int color)
+        public int Update(int selected_number, int color)
         {
             bool add = true;
             for(int i = 0 ; i < this.sequences[color].Count ; i++)
