@@ -27,6 +27,7 @@ namespace KTL_game.Pages
         private MainWindow Window { get; set; }
         private StartPage StartPage { get; set; }
         private List<Button> ButtonList { get; set; }
+        private List<int> ButtonColorIndexList { get; set; } 
         private int NumberOfFieldsInRow { get; set; }
         private int NumberOfRows { get; set; }
         private List<Color> ColorsList {get; set;}
@@ -39,6 +40,7 @@ namespace KTL_game.Pages
             this.ColorsCount = colorsCount;
             this.ColorListCount = colorListCount;
             this.NumberOfFieldsInRow = 15;
+            this.ButtonColorIndexList = new List<int>();
             InitializeComponent();
             InitLabelsValues();
             InitGrid();
@@ -73,6 +75,10 @@ namespace KTL_game.Pages
 
         private void InitFields()
         {
+            for(int i=0;i<GameLength;i++)
+            {
+                ButtonColorIndexList.Add(-1);
+            }
             int counter = 0;
             for (int j = 0; j < NumberOfRows; j++)
             {
@@ -134,12 +140,76 @@ namespace KTL_game.Pages
                     }
                 }
             }
+            //DO POPRAWY
             //Losuję --- Wybieram kolor z listy kolorów
             int colorIndex = rand.Next(tmpColorList.Count - 1);
             var button = (Button)sender;
+            int buttonIndex = int.Parse(button.Content.ToString());
+            int tmp;
+            for(tmp = 0; tmp< ColorsCount;tmp++)
+            {
+                if(ColorsList[tmp] == tmpColorList[colorIndex])
+                {
+                    ButtonColorIndexList[buttonIndex - 1] = tmp;
+                    break;
+                }
+            }
+            
             button.Background = new SolidColorBrush(tmpColorList[colorIndex]);
             button.IsEnabled = false;
             //sprawdzam czy powstał ciąg
+            int currentSeriesLength = CheckForSeries(tmp);
+            if (currentSeriesLength == SeriesLength)
+            {
+                MessageBox.Show("End of the game");
+            }
+        }
+
+        //Returns length of maximal series for given color
+        private int CheckForSeries(int colorIndex)
+        {
+            int maxLengthOfSeries = 0;
+            int i = ButtonColorIndexList.FindIndex(x => x == colorIndex);
+            int z = ButtonColorIndexList.FindLastIndex(x => x == colorIndex);
+            int k = SeriesLength;
+            int jmax = (z - i) / (k - 1)+1;
+            for(int m = 1; m < jmax+1;m++)
+            {
+                int currentIndex = i;
+                bool do_work = true;
+                while(do_work)
+                {
+                    int currentSeriesLength = 0;
+                    for(int n=0; n < SeriesLength+1;n++)
+                    {
+                        int nextIndex = ButtonColorIndexList.FindIndex(currentIndex+1,x => x == colorIndex);
+                        if(nextIndex == -1)
+                        {
+                            if (currentSeriesLength > maxLengthOfSeries) maxLengthOfSeries = currentSeriesLength;
+                            do_work = false;
+                            break;
+                        }
+                        if(nextIndex-currentIndex != m)
+                        {
+                            if (currentSeriesLength > maxLengthOfSeries) maxLengthOfSeries = currentSeriesLength;
+                            currentIndex = nextIndex;
+                            currentSeriesLength = 0;
+                            n = 0;
+                            if(nextIndex == z)
+                            {
+                                do_work = false;
+                                break;                               
+                            }
+                        }
+                        else
+                        {
+                            currentIndex = nextIndex;
+                            currentSeriesLength++;
+                        }
+                    }
+                }
+            }
+            return maxLengthOfSeries + 1;
         }
     }
 }
