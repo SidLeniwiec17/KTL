@@ -11,14 +11,14 @@ namespace KTL_game.Helper
         public static List<List<int>> GenerateColors(int total_colors, int rand_colors)
         {
             List<List<int>> colors = new List<List<int>>();
-            int liczba_mozliwosci =  all_possible_colors( total_colors, rand_colors);
+            int liczba_mozliwosci = all_possible_colors(total_colors, rand_colors);
             Random rand = new Random();
             for (int i = 0; i < liczba_mozliwosci; i++)
             {
                 while (true)
                 {
                     bool foundRand = true;
-                    List<int> rands = randColors (total_colors, rand_colors);
+                    List<int> rands = randColors(total_colors, rand_colors);
                     if (IsListInLists(colors, rands) == true)
                     {
                         foundRand = false;
@@ -69,7 +69,7 @@ namespace KTL_game.Helper
                     return true;
             }
             return false;
-            
+
         }
         public static int NTerm(int firstTerm, int step, int n)
         {

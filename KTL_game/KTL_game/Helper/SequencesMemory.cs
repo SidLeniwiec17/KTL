@@ -16,17 +16,29 @@ namespace KTL_game.Helper
             for (int i = 0; i < all_colors; i++)
                 this.sequences.Add(new List<Sequence>());
         }
+        public SequencesMemory(SequencesMemory oldMemory)
+        {
+            this.sequences = new List<List<Sequence>>();
+            for (int i = 0; i < oldMemory.sequences.Count; i++)
+            {
+                List<Sequence> tmpList = new List<Sequence>();
+                for (int j = 0; j < oldMemory.sequences[i].Count; j++)
+                    tmpList.Add(new Sequence(oldMemory.sequences[i][j]));
+                this.sequences.Add(tmpList);
+            }
+        }
+
 
         public int Update(int selected_number, int color)
         {
             bool add = true;
-            for(int i = 0 ; i < this.sequences[color].Count ; i++)
+            for (int i = 0; i < this.sequences[color].Count; i++)
             {
-                if(sequences[color][i].step == -1)
+                if (sequences[color][i].step == -1)
                 {
                     int tmp_step = selected_number - sequences[color][i].first_term;
                     sequences[color][i].step = tmp_step;
-                    if(sequences[color][i].is_still_seq(selected_number))
+                    if (sequences[color][i].is_still_seq(selected_number))
                     {
                         sequences[color][i].curr_lengt++;
                         add = false;
@@ -39,7 +51,7 @@ namespace KTL_game.Helper
                         sequences[color][i].curr_lengt++;
                         add = false;
                     }
-                }                
+                }
             }
             if (add == true)
             {

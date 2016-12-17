@@ -27,5 +27,10 @@ namespace KTL_game.Helper
             this.is_checked = _is_checked;
             this.color = _color;
         }
+        public Plate(Plate oldPlate)
+        {
+            this.is_checked = oldPlate.is_checked;
+            this.color = oldPlate.color;
+        }
     }
 }

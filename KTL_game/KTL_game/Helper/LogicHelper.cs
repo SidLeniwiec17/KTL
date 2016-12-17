@@ -18,7 +18,7 @@ namespace KTL_game.Helper
         public int free_plates { get; set; }
         Scenario scenariusz { get; set; }
         public bool first_time { get; set; }
-        public List<List<int>> all_posssible_colors{ get; set; }
+        public List<List<int>> all_posssible_colors { get; set; }
 
 
         public LogicHelper()
@@ -54,7 +54,7 @@ namespace KTL_game.Helper
             this.sequences = new SequencesMemory(this.all_colors);
         }
 
-        public int chooseColor (int selected_number, List<int> random_colors)
+        public int chooseColor(int selected_number, List<int> random_colors)
         {
             int answ_color = -1;
             if (this.first_time == true)
@@ -71,8 +71,7 @@ namespace KTL_game.Helper
                     if (this.scenariusz.children[i].choosen_number == selected_number)
                         tmp_scenario = this.scenariusz.children[i];
                 }
-                this.scenariusz = new Scenario();
-                this.scenariusz = tmp_scenario;
+                this.scenariusz = new Scenario(tmp_scenario);
                 this.scenariusz.MakeMove(selected_number, random_colors, this.all_posssible_colors);
             }
             return answ_color;
