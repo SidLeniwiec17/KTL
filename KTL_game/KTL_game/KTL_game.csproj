@@ -69,6 +69,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helper\HumanScenario.cs" />
     <Compile Include="Helper\LogicHelper.cs" />
     <Compile Include="Helper\Plate.cs" />
     <Compile Include="Helper\Scenario.cs" />

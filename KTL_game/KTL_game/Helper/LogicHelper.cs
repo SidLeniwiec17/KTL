@@ -65,7 +65,7 @@ namespace KTL_game.Helper
             }
             else
             {
-                Scenario tmp_scenario = new Scenario();
+               /* Scenario tmp_scenario = new Scenario();
                 for (int i = 0; i < this.scenariusz.children.Count(); i++)
                 {
                     if (this.scenariusz.children[i].choosen_number == selected_number)
@@ -73,6 +73,7 @@ namespace KTL_game.Helper
                 }
                 this.scenariusz = new Scenario(tmp_scenario);
                 this.scenariusz.MakeMove(selected_number, random_colors, this.all_posssible_colors);
+                */
             }
             return answ_color;
         }
