@@ -61,7 +61,9 @@ namespace KTL_game.Helper
                 {
                     for (int i = 0; i < random_colors.Count; i++)
                     {
-                        List<Plate> temp_game_state = this.game_state;
+                        List<Plate> temp_game_state = new List<Plate>();
+                        for(int g = 0 ; g < this.game_state.Count() ; g ++)
+                            temp_game_state.Add(new Plate(this.game_state.ElementAt(g).color, this.game_state.ElementAt(g).is_checked));
                         temp_game_state[selected_number].is_checked = true;
                         temp_game_state[selected_number].color = random_colors[i];
                         SequencesMemory temp_memory = new SequencesMemory(this.all_colors);
@@ -81,10 +83,11 @@ namespace KTL_game.Helper
                         else
                             tmp_beta++;
 
-                        if (tmp_alfa <= tmp_beta)
+                        if (tmp_alfa <= tmp_beta && this.current_depth+1 <= this.max_depth)
                         {
 
-                            Scenario temp_scenario = new Scenario(tmp_alfa, tmp_beta, temp_game_state, this.current_depth++, this.max_depth, temp_memory, this.all_colors, this.random_colors, this.free_plates - 1);
+                            Scenario temp_scenario = new Scenario(tmp_alfa, tmp_beta, temp_game_state, this.current_depth, this.max_depth, temp_memory, this.all_colors, this.random_colors, this.free_plates - 1);
+                            temp_scenario.current_depth += 1;
                             temp_scenario.random_choosen_colors = random_colors;
                             this.children.Add(temp_scenario);
 
