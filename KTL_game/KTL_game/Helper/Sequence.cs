@@ -24,12 +24,14 @@ namespace KTL_game.Helper
             this.step = oldSequence.step;
             this.curr_lengt = oldSequence.curr_lengt;
         }
-        public bool is_still_seq(int index)
+        public int is_still_seq(int index)
         {
             if (SequenceHelper.NTerm(this.first_term, this.step, this.curr_lengt + 1) == index)
-                return true;
+                return 1;
+            else if (SequenceHelper.NTerm(index , this.step, 1) == this.first_term)
+                return 2;
             else
-                return false;
+                return 0;
         }
     }
 }

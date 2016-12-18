@@ -10,8 +10,8 @@ namespace KTL_game.Helper
     {
         SequencesMemory current_sequences { get; set; }
         List<Plate> game_state { get; set; }
-        int alfa { get; set; }
-        int beta { get; set; }
+        public int alfa { get; set; }
+        public int beta { get; set; }
         public List<HumanScenario> children { get; set; }
         int current_depth { get; set; }
         int max_depth { get; set; }
@@ -75,10 +75,13 @@ namespace KTL_game.Helper
             this.random_colors = _random_colors;
             this.free_plates = _free_plates;
         }
-        public void MakeMove(int selected_number, List<int> random_colors, List<List<int>> all_possible_colors)
+        public int MakeMove(int selected_number, List<int> random_colors, List<List<int>> all_possible_colors)
         {
+            int bestChild = -1;
             if (current_depth < max_depth)
             {
+                int bestCol = -1;
+                int bestVal = 0;
                 for (int i = 0; i < random_colors.Count; i++)
                 {
                     List<Plate> temp_game_state = new List<Plate>();
@@ -103,11 +106,23 @@ namespace KTL_game.Helper
                         this.children.Add(humanScenariusz);
                     }
                 }
+                List<int> children_answers = new List<int>();
                 for(int i = 0 ; i < this.children.Count ; i++)
                 {
-                    this.children[i].MakeMove(all_possible_colors, this);
+                    int tmpAnswer = this.children[i].MakeMove(all_possible_colors, this);
+                    children_answers.Add(tmpAnswer);
                 }
+                for (int i = 0; i < children_answers.Count; i++)
+                {
+                    if (children_answers[i] >= bestVal)
+                    {
+                        bestVal = children_answers[i];
+                        bestCol = this.children[i].choosen_color;
+                    }
+                }
+                bestChild = bestCol;
             }
+            return bestChild;
         }
     }
 }

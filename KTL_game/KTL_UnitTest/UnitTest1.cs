@@ -11,7 +11,7 @@ namespace KTL_UnitTest
         public void NTerm_test()
         {
             // arrange  
-            int firstTerm = 2;
+            /*int firstTerm = 2;
             int step = 2;
             int n = 4;
             int expected = 8;
@@ -39,7 +39,7 @@ namespace KTL_UnitTest
             Assert.AreEqual(expected, solution);
             Assert.AreEqual(expected_2, solution_2);
             Assert.AreEqual(expected_3, solution_3);
-            Assert.AreNotEqual(expected_4, solution_4);  
+            Assert.AreNotEqual(expected_4, solution_4);  */
         }
     }
 }

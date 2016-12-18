@@ -36,23 +36,36 @@ namespace KTL_game.Helper
             {
                 if (sequences[color][i].step == -1)
                 {
-                    int tmp_step = selected_number - sequences[color][i].first_term;
+                    int tmp_step = Math.Abs( selected_number - sequences[color][i].first_term);
                     sequences[color][i].step = tmp_step;
-                    if (sequences[color][i].is_still_seq(selected_number))
+                    if (sequences[color][i].is_still_seq(selected_number)== 1)
                     {
                         sequences[color][i].curr_lengt++;
+                        add = false;
+                    }
+                    else if (sequences[color][i].is_still_seq(selected_number) == 2)
+                    {
+                        sequences[color][i].curr_lengt++;
+                        sequences[color][i].first_term = selected_number;
                         add = false;
                     }
                 }
                 else if (sequences[color][i].step >= 1)
                 {
-                    if (sequences[color][i].is_still_seq(selected_number))
+                    if (sequences[color][i].is_still_seq(selected_number)== 1)
                     {
                         sequences[color][i].curr_lengt++;
                         add = false;
                     }
+                    else if (sequences[color][i].is_still_seq(selected_number) == 2)
+                    {
+                        sequences[color][i].curr_lengt++;
+                        sequences[color][i].first_term = selected_number;
+                        add = false;
+                    }
                 }
             }
+            CombineSequences(color);
             if (add == true)
             {
                 Sequence new_seq = new Sequence();
@@ -64,6 +77,26 @@ namespace KTL_game.Helper
             }
             else
                 return -1;
+        }
+
+        public void CombineSequences(int color)
+        {
+            for (int i = 0; i < this.sequences[color].Count; i++)
+            {
+                for (int j = 1; j < this.sequences[color].Count; j++)
+                {
+                    Sequence first = this.sequences[color][i];
+                    Sequence second = this.sequences[color][j];
+                    if (first.step == second.step && first.curr_lengt > 1 && second.curr_lengt > 1)
+                    {
+                        if (SequenceHelper.NTerm(first.first_term,first.step,first.curr_lengt+1) == second.first_term)
+                        {
+                            this.sequences[color][i].curr_lengt += this.sequences[color][j].curr_lengt;
+                            this.sequences[color].RemoveAt(j);
+                        }
+                    }
+                }
+            }
         }
     }
 }
