@@ -75,13 +75,10 @@ namespace KTL_game.Helper
             this.random_colors = _random_colors;
             this.free_plates = _free_plates;
         }
-        public int MakeMove(int selected_number, List<int> random_colors, List<List<int>> all_possible_colors)
+        public void MakeMove(int selected_number, List<int> random_colors, List<List<int>> all_possible_colors)
         {
-            int bestChild = -1;
             if (current_depth < max_depth)
             {
-                int bestCol = -1;
-                int bestVal = 0;
                 for (int i = 0; i < random_colors.Count; i++)
                 {
                     List<Plate> temp_game_state = new List<Plate>();
@@ -106,23 +103,11 @@ namespace KTL_game.Helper
                         this.children.Add(humanScenariusz);
                     }
                 }
-                List<int> children_answers = new List<int>();
                 for(int i = 0 ; i < this.children.Count ; i++)
                 {
-                    int tmpAnswer = this.children[i].MakeMove(all_possible_colors, this);
-                    children_answers.Add(tmpAnswer);
+                    this.children[i].MakeMove(all_possible_colors, this);
                 }
-                for (int i = 0; i < children_answers.Count; i++)
-                {
-                    if (children_answers[i] >= bestVal)
-                    {
-                        bestVal = children_answers[i];
-                        bestCol = this.children[i].choosen_color;
-                    }
-                }
-                bestChild = bestCol;
             }
-            return bestChild;
         }
     }
 }

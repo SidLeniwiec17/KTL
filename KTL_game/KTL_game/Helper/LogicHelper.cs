@@ -60,9 +60,22 @@ namespace KTL_game.Helper
             if (this.first_time == true)
             {
                 this.scenariusz = new Scenario(0, 0, this.game_state, 0, this.deep_search, this.sequences, this.all_colors, this.random_colors, this.free_plates);
-                int answerColor = this.scenariusz.MakeMove(selected_number, random_colors, this.all_posssible_colors);
+                this.scenariusz.MakeMove(selected_number, random_colors, this.all_posssible_colors);
                 this.first_time = false;
-                answ_color = answerColor;
+
+                int bestVal = -1000;
+                int bestCol = -1;
+                for (int i = 0; i < this.scenariusz.children.Count; i++)
+                {
+                    int tmpVal = SequenceHelper.SearchHTree(this.scenariusz.children[i]);
+                    if (tmpVal >= bestVal)
+                    {
+                        bestVal = tmpVal;
+                        bestCol = i;
+                    }
+                }
+                answ_color = bestCol;
+                
             }
             else
             {

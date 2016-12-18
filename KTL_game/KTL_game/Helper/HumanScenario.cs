@@ -76,9 +76,8 @@ namespace KTL_game.Helper
             this.random_colors = _random_colors;
             this.free_plates = _free_plates;
         }
-        public int MakeMove(List<List<int>> all_possible_colors, Scenario oldScenario)
+        public void MakeMove(List<List<int>> all_possible_colors, Scenario oldScenario)
         {
-            int bestVal = 0;
             int counter = 0;
             for (int j = counter; j < game_state.Count; j++)
             {
@@ -100,16 +99,11 @@ namespace KTL_game.Helper
                         this.children.Add(tmpScenario);
                     }
                 }
-
             }
-            bestVal = this.children[0].alfa - this.children[0].beta;
             for(int i = 0 ; i < this.children.Count ; i++)
             {
                 this.children[i].MakeMove(this.children[i].choosen_number, this.children[i].random_choosen_colors, all_possible_colors);
-                if(this.children[i].alfa - this.children[i].beta > bestVal)
-                    bestVal = this.children[i].alfa - this.children[i].beta;
             }
-            return bestVal;
         }
     }
 }

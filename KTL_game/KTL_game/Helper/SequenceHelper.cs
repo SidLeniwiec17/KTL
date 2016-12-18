@@ -117,5 +117,39 @@ namespace KTL_game.Helper
                 return 1;
             return i * Factorial(i - 1);
         }
+
+        public static int SearchHTree(HumanScenario scenariusz)
+        {
+            int bestVal = -1;
+            if (scenariusz.children.Count >= 1)
+            {
+                for (int i = 0; i < scenariusz.children.Count; i++)
+                {
+                    int val = SearchSTree(scenariusz.children[i]);
+                    if (val > bestVal)
+                        bestVal = val;
+                }
+            }
+            return bestVal;
+        }
+        public static int SearchSTree(Scenario scenariusz)
+        {
+            int bestVal = -1;
+
+            if (scenariusz.children.Count >= 1)
+            {
+                for (int i = 0; i < scenariusz.children.Count; i++)
+                {
+                    int val = SearchHTree(scenariusz.children[i]);
+                    if (val > bestVal)
+                        bestVal = val;
+                }
+            }
+            else
+            {
+                bestVal = scenariusz.beta - scenariusz.alfa;
+            }
+            return bestVal;
+        }
     }
 }
