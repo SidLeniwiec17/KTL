@@ -14,7 +14,7 @@ namespace KTL_game.Helper
         public int beta { get; set; }
         public List<HumanScenario> children { get; set; }
         int current_depth { get; set; }
-        int max_depth { get; set; }
+        public int max_depth { get; set; }
         int all_colors { get; set; }
         int random_colors { get; set; }
         int free_plates { get; set; }
@@ -79,33 +79,36 @@ namespace KTL_game.Helper
         {
             if (current_depth < max_depth)
             {
-                for (int i = 0; i < random_colors.Count; i++)
+                if (this.children.Count < 1)
                 {
-                    List<Plate> temp_game_state = new List<Plate>();
-                    for (int g = 0; g < this.game_state.Count(); g++)
-                        temp_game_state.Add(new Plate(this.game_state.ElementAt(g).color, this.game_state.ElementAt(g).is_checked));
-                    
-                    temp_game_state[selected_number].is_checked = true;
-                    temp_game_state[selected_number].color = random_colors[i];
-                    SequencesMemory temp_memory = new SequencesMemory(this.current_sequences);
-                    int answ = temp_memory.Update(selected_number, random_colors[i]);
-                    //calc alfa, beta
-                    int tmp_alfa = this.alfa, tmp_beta = this.beta;
-                    if (answ < 0)
-                        tmp_alfa++;
-                    else
-                        tmp_beta++;
-
-                    if (tmp_alfa < tmp_beta)
+                    for (int i = 0; i < random_colors.Count; i++)
                     {
-                        HumanScenario humanScenariusz = new HumanScenario(this.alfa, this.beta, temp_game_state, this.current_depth + 1, this.max_depth, temp_memory, this.all_colors, this.random_colors, this.free_plates - 1);
-                        humanScenariusz.choosen_color = i;
-                        this.children.Add(humanScenariusz);
+                        List<Plate> temp_game_state = new List<Plate>();
+                        for (int g = 0; g < this.game_state.Count(); g++)
+                            temp_game_state.Add(new Plate(this.game_state.ElementAt(g).color, this.game_state.ElementAt(g).is_checked));
+
+                        temp_game_state[selected_number].is_checked = true;
+                        temp_game_state[selected_number].color = random_colors[i];
+                        SequencesMemory temp_memory = new SequencesMemory(this.current_sequences);
+                        int answ = temp_memory.Update(selected_number, random_colors[i]);
+                        //calc alfa, beta
+                        int tmp_alfa = this.alfa, tmp_beta = this.beta;
+                        if (answ < 0)
+                            tmp_alfa++;
+                        else
+                            tmp_beta++;
+
+                        if (tmp_alfa < tmp_beta)
+                        {
+                            HumanScenario humanScenariusz = new HumanScenario(this.alfa, this.beta, temp_game_state, this.current_depth + 1, this.max_depth, temp_memory, this.all_colors, this.random_colors, this.free_plates - 1);
+                            humanScenariusz.choosen_color = i;
+                            this.children.Add(humanScenariusz);
+                        }
                     }
                 }
                 for(int i = 0 ; i < this.children.Count ; i++)
                 {
-                    this.children[i].MakeMove(all_possible_colors, this);
+                    this.children[i].MakeMove(all_possible_colors);
                 }
             }
         }

@@ -46,9 +46,10 @@ namespace KTL_game.Helper
             this.alfa = oldScenario.alfa;
             this.beta = oldScenario.beta;
             this.children = new List<Scenario>();
-            for (int i = 0; i < oldScenario
-                .children.Count; i++)
+            for (int i = 0; i < oldScenario.children.Count; i++)
+            {
                 this.children.Add(new Scenario(oldScenario.children[i]));
+            }
             this.current_depth = oldScenario.current_depth;
             this.max_depth = oldScenario.max_depth;
             this.current_sequences = new SequencesMemory(oldScenario.current_sequences);
@@ -57,8 +58,13 @@ namespace KTL_game.Helper
             this.free_plates = oldScenario.free_plates;
             this.choosen_color = oldScenario.choosen_color;
             this.random_choosen_colors = new List<int>();
-            for (int i = 0; i < oldScenario.random_choosen_colors.Count; i++)
-                this.random_choosen_colors.Add(oldScenario.random_choosen_colors[i]);
+            if (oldScenario.random_choosen_colors != null)
+            {
+                for (int i = 0; i < oldScenario.random_choosen_colors.Count; i++)
+                {
+                    this.random_choosen_colors.Add(oldScenario.random_choosen_colors[i]);
+                }
+            }
 
         }
 
@@ -76,27 +82,30 @@ namespace KTL_game.Helper
             this.random_colors = _random_colors;
             this.free_plates = _free_plates;
         }
-        public void MakeMove(List<List<int>> all_possible_colors, Scenario oldScenario)
+        public void MakeMove(List<List<int>> all_possible_colors)
         {
             int counter = 0;
-            for (int j = counter; j < game_state.Count; j++)
+            if (this.children.Count < 1)
             {
-                if (this.game_state[j].is_checked == false)
+                for (int j = counter; j < game_state.Count; j++)
                 {
-                    int new_selected_number = j;
-                    counter = j;
-
-                    for (int c = 0; c < all_possible_colors.Count; c++)
+                    if (this.game_state[j].is_checked == false)
                     {
-                        List<Plate> temp_game_state = new List<Plate>();
-                        for (int g = 0; g < this.game_state.Count(); g++)
-                            temp_game_state.Add(new Plate(this.game_state.ElementAt(g).color, this.game_state.ElementAt(g).is_checked));
+                        int new_selected_number = j;
+                        counter = j;
 
-                        SequencesMemory temp_memory = new SequencesMemory(this.current_sequences);
-                        Scenario tmpScenario = new Scenario(this.alfa, this.beta, temp_game_state, this.current_depth, this.max_depth, temp_memory, this.all_colors, this.random_colors, this.free_plates);
-                        tmpScenario.choosen_number = new_selected_number;
-                        tmpScenario.random_choosen_colors = all_possible_colors[c];
-                        this.children.Add(tmpScenario);
+                        for (int c = 0; c < all_possible_colors.Count; c++)
+                        {
+                            List<Plate> temp_game_state = new List<Plate>();
+                            for (int g = 0; g < this.game_state.Count(); g++)
+                                temp_game_state.Add(new Plate(this.game_state.ElementAt(g).color, this.game_state.ElementAt(g).is_checked));
+
+                            SequencesMemory temp_memory = new SequencesMemory(this.current_sequences);
+                            Scenario tmpScenario = new Scenario(this.alfa, this.beta, temp_game_state, this.current_depth, this.max_depth, temp_memory, this.all_colors, this.random_colors, this.free_plates);
+                            tmpScenario.choosen_number = new_selected_number;
+                            tmpScenario.random_choosen_colors = all_possible_colors[c];
+                            this.children.Add(tmpScenario);
+                        }
                     }
                 }
             }

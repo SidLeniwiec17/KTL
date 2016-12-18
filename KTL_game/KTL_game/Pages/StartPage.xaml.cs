@@ -36,6 +36,7 @@ namespace KTL_game.Pages
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            /*
             LogicHelper test = new LogicHelper();
             test.all_colors = 3;
             test.deep_search = 2;
@@ -51,7 +52,8 @@ namespace KTL_game.Pages
             List<int> randomColors = new List<int>();
             randomColors.Add(0);
             randomColors.Add(2);
-            int qqqq = test.chooseColor(0, randomColors);        
+            int qqqq = test.chooseColor(0, randomColors);
+            */
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KTL_game.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,7 @@ namespace KTL_game.Pages
         private int NumberOfFieldsInRow { get; set; }
         private int NumberOfRows { get; set; }
         private List<Color> ColorsList {get; set;}
+        private LogicHelper logic { get; set; }
         public GameplayPage(MainWindow window, StartPage startPage, int gameLenght, int seriesLength, int colorsCount, int colorListCount)
         {
             this.Window = window;
@@ -46,6 +48,8 @@ namespace KTL_game.Pages
             InitGrid();
             InitFields();
             InitColorsList();
+            int gameLevel = 2;
+            logic = new LogicHelper(gameLenght, colorsCount, colorListCount, seriesLength, gameLevel, gameLenght);
         }
 
         private void InitLabelsValues()
@@ -120,6 +124,7 @@ namespace KTL_game.Pages
             Random rand = new Random();
             //Losuję listę kolorów
             var tmpColorList = new List<Color>();
+            List<int> randColors = new List<int>();
             for (int i = 0; i < ColorListCount; i++)
             {
                 while (true)
@@ -136,15 +141,20 @@ namespace KTL_game.Pages
                     if(foundRand == true)
                     {
                         tmpColorList.Add(ColorsList[tmpNum]);
+                        randColors.Add(tmpNum);
                         break;
                     }
                 }
             }
             //DO POPRAWY
             //Losuję --- Wybieram kolor z listy kolorów
-            int colorIndex = rand.Next(tmpColorList.Count - 1);
+            //int colorIndex = rand.Next(tmpColorList.Count - 1);
+
+            
+
             var button = (Button)sender;
             int buttonIndex = int.Parse(button.Content.ToString());
+            int colorIndex = this.logic.chooseColor(buttonIndex, randColors);
             int tmp;
             for(tmp = 0; tmp< ColorsCount;tmp++)
             {
