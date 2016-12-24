@@ -154,7 +154,10 @@ namespace KTL_game.Pages
 
             var button = (Button)sender;
             int buttonIndex = int.Parse(button.Content.ToString());
-            int colorIndex = this.logic.chooseColor(buttonIndex, randColors);
+           
+            //int colorIndex = this.logic.chooseColor(buttonIndex, randColors);
+            int colorIndex = rand.Next(tmpColorList.Count - 1);
+            
             int tmp;
             for(tmp = 0; tmp< ColorsCount;tmp++)
             {
